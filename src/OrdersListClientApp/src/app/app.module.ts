@@ -1,4 +1,4 @@
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -12,7 +12,7 @@ import { ProductsListComponent } from './products-list/products-list.component';
   declarations: [
     AppComponent,
     TopBarComponent,
-    ProductsListComponent,
+    ProductsListComponent
     
   ],
   imports: [
