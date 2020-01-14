@@ -1,19 +1,20 @@
 import { Injectable, OnInit } from '@angular/core';
-import  {HttpClient } from '@angular/common/http';
+import  {HttpClient, HttpResponse } from '@angular/common/http';
 import { ProductModel } from '../models/product.model';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class ProductsService implements OnInit
+export class ProductsService
 {
-    public Products: ProductModel[];
+    Products: ProductModel[] = [];
 
     constructor(private httpClient: HttpClient) { }
 
     getProducts() : Observable<ProductModel[]> {
-        console.log("hi from log");
         return this.httpClient.get<ProductModel[]>('api/products');
     }
 
-    ngOnInit() {}
+    getProductById(id: number) : Observable<ProductModel> {
+        return this.httpClient.get<ProductModel>('api/products/' + id);
+    }
 }

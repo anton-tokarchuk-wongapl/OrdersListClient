@@ -13,7 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [
     AppComponent,
     TopBarComponent,
-    ProductsListComponent
+    ProductsListComponent,
   ],
   imports: [
     NgbModule,
