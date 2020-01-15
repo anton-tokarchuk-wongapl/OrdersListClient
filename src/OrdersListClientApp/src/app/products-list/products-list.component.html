@@ -1,11 +1,10 @@
-<ul>
-    <div class="row"></div>
-    <li *ngFor="let item of Products">
-        <app-product-item 
-            [id]={{item.id}}
-            [name]={{item.name}}
-            [price]={{price}}
-            [photoUrl]={{photoUrl}}>
-        </app-product-item>
-    </li>
-</ul>
+<div class="row justify-content-xl-start">
+    <div class="col-md-5">
+        <ul>
+            <li *ngFor="let item of Products">
+                <app-product-item [id]="item.id" [name]="item.name" [price]="item.price" [photoUrl]="photoUrl">
+                </app-product-item>
+            </li>
+        </ul>
+    </div>
+</div>
