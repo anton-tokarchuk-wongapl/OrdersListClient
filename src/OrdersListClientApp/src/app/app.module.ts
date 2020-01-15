@@ -9,13 +9,12 @@ import { ProductsListComponent } from './products-list/products-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductItemComponent } from './product-item/product-item.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     TopBarComponent,
     ProductsListComponent,
-    ProductItemComponent,
+    ProductItemComponent
   ],
   imports: [
     NgbModule,

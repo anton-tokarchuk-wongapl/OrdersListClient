@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductsService } from '../services/products.service';
 import { IProduct } from '../interfaces/iproduct';
 
@@ -11,7 +12,8 @@ import { IProduct } from '../interfaces/iproduct';
 })
 export class ProductItemComponent implements OnInit {
 
-  constructor(private productService: ProductsService) { }
+  constructor(private productService: ProductsService, 
+              private modalService: NgbModal) { }
 
   ngOnInit() {
   }
@@ -20,6 +22,11 @@ export class ProductItemComponent implements OnInit {
   @Input() name: string;
   @Input() price: number;
   @Input() photoUrl: string;
+
+  @Output() onDeleted = new EventEmitter<number>();
+    change(deleted:number) {
+        this.onDeleted.emit(deleted);
+    }
 
   editableName: string;
   editablePrice: number;
@@ -32,6 +39,12 @@ export class ProductItemComponent implements OnInit {
     this.editMode = true;
   }
 
+  onClickCancel() {
+    this.editableName = this.name;
+    this.editablePrice = this.price;
+    this.editMode = false;
+  }
+
   onClickSave() {
     let product: IProduct = {
       id : this.id,
@@ -42,15 +55,26 @@ export class ProductItemComponent implements OnInit {
 
     this.productService.updateProduct(product)
     .subscribe(data => {
-        console.log(data);
         this.name = data.name;
         this.price = data.price;
-        console.log(this.name, this.price);
     });
     this.editMode = false;
   }
 
-  cancelEdit() {
+  openModal(content) {
+    this.modalService.open(content, { size: 'sm' })
+    .result.then((result) => {
+      this.onClickModal(result);
+    });
+  }
 
+  private onClickModal(result: string) {
+    if (result == 'Delete click')
+    {
+      this.productService.deleteProduct(this.id)
+      .subscribe(() => {
+        this.change(this.id);
+      });
+    }
   }
 }

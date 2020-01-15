@@ -19,4 +19,8 @@ export class ProductsService
     updateProduct(product: IProduct) : Observable<IProduct> {
         return this.httpClient.put<IProduct>('api/products', product);
     }
+
+    deleteProduct(id: number) : Observable<IProduct> {
+        return this.httpClient.delete<IProduct>('api/products/' + id);
+    }
 }
