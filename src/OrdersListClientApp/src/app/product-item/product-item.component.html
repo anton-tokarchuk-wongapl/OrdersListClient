@@ -6,16 +6,29 @@
         </div>
         <div class="col-md-8">
             <div class="card-body">
-                <h5 class="card-title">{{name}}</h5>
-                <p class="card-text">Price: {{price}}</p>
+                <div *ngIf="editMode" class="editModeclass">
+                    <input type="text" [(ngModel)]="editableName"/>
+                    <input type="text" [(ngModel)]="editablePrice"/>
+                </div>
+                <div *ngIf="!editMode" class="nonEditModeclass">
+                    <h5 class="card-title">{{name}}</h5>
+                    <p class="card-text">Price: {{price}}</p>
+                </div>
+
             </div>
             <div class="card-body">
                 <div class="row justify-content-start">
                     <div class="col-auto">
-                        <button type="button" class="btn btn-primary">Edit</button>
+                        <button *ngIf="!editMode" type="button" class="btn btn-primary"
+                            (click)="onClickEdit()">Edit</button>
+                        <button *ngIf="editMode" type="button" class="btn btn-primary"
+                            (click)="onClickSave()">Save</button>
                     </div>
                     <div class="col-auto">
-                        <button type="button" class="btn btn-danger">Delete</button>
+                        <button *ngIf="!editMode" type="button" class="btn btn-danger"
+                            (click)="editMode=true">Delete</button>
+                        <button *ngIf="editMode" type="button" class="btn btn-danger"
+                            (click)="editMode=false">Cancel</button>
                     </div>
                 </div>
             </div>
