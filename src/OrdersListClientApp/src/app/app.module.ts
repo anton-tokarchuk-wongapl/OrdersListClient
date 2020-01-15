@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { ProductsListComponent } from './products-list/products-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ProductItemComponent } from './product-item/product-item.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     TopBarComponent,
     ProductsListComponent,
+    ProductItemComponent,
   ],
   imports: [
     NgbModule,

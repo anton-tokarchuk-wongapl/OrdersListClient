@@ -6,8 +6,6 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class ProductsService
 {
-    Products: ProductModel[] = [];
-
     constructor(private httpClient: HttpClient) { }
 
     getProducts() : Observable<ProductModel[]> {
