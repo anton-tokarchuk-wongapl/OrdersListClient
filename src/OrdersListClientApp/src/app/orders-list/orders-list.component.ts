@@ -31,6 +31,7 @@ export class OrdersListComponent implements OnInit {
   editableProductId: number;
   editableStatusId: number;
   editableOrderCount: number;
+  newEditableProductId: string;
 
   isEditMode = false;
 
@@ -88,17 +89,13 @@ export class OrdersListComponent implements OnInit {
     this.isEditMode = true;
   }
 
-  nameSelectSetter(id: string) {
-    this.editableProductId = +id;
-  }
-
   onClickCancel() {
     this.isEditMode = false;
   }
   onClickSave() {
     let order: IOrder = {
       id: this.editableOrderId,
-      productId: this.editableProductId,
+      productId: +this.newEditableProductId,
       statusId: this.editableStatusId,
       count: this.editableStatusId
     };

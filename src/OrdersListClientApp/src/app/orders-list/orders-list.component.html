@@ -27,17 +27,17 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <div *ngIf="isEditMode" class="onEditClass">
+                                <div class="onEditClass">
                                     <div class="input-group mb-3">
-                                        <select class="custom-select" id="inputGroupSelectProducts1">
+                                        <select *ngIf="isEditMode && orderItem.orderId == editableOrderId" [(ngModel)]="newEditableProductId" class="custom-select" id="inputGroupSelectProducts1">
                                             <ng-template ngFor let-product [ngForOf]="products" let-i="index"
                                                 [ngForTrackBy]="trackByFn">
-                                                <option value="{{nameSelectSetter(product.id)}}">{{product.name}}</option>
+                                                <option value="{{product.id}}">{{product.name}}</option>
                                             </ng-template>
                                         </select>
                                     </div>
                                 </div>
-                                <div *ngIf="!isEditMode" class="nonEditClass">
+                                <div *ngIf="!isEditMode || orderItem.orderId != editableOrderId " class="nonEditClass">
                                     <h5 class="card-title">Name: {{orderItem.productName}}</h5>
                                     <p class="card-text">Price: {{orderItem.productPrice}}</p>
                                 </div>
@@ -52,7 +52,7 @@
                                     </div>
                                     <div *ngIf="isEditMode" class="col-auto">
                                         <button type="button" class="btn btn-primary"
-                                            (click)="onClickSave(product)">Save</button>
+                                            (click)="onClickSave()">Save</button>
                                         <button type="button" class="btn btn-danger"
                                             (click)="onClickCancel()">Cancel</button>
                                     </div>
