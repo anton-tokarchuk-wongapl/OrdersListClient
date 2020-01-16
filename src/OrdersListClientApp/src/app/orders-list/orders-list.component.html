@@ -28,30 +28,40 @@
                         <div class="col-md-8">
                             <div class="card-body">
                                 <div class="onEditClass">
-                                    <div *ngIf="isEditMode && orderItem.orderId == editableOrderId" class="input-group mb-3">
-                                        <select [(ngModel)]="newEditableProductId" class="custom-select" id="inputGroupSelectProducts1">
+                                    <div *ngIf="isEditMode && orderItem.orderId == editableOrderId || isCreateMode && orderItem.orderId == null"
+                                        class="input-group mb-3">
+                                        <select [(ngModel)]="newEditableProductId" class="custom-select"
+                                            id="inputGroupSelectProducts1">
                                             <ng-template ngFor let-product [ngForOf]="products" let-i="index"
                                                 [ngForTrackBy]="trackByFn">
                                                 <option value="{{product.id}}">{{product.name}}</option>
                                             </ng-template>
                                         </select>
-                                        <select [(ngModel)]="newEditableStatusId" class="custom-select" id="inputGroupSelectStatuses">
+                                        <select [(ngModel)]="newEditableStatusId" class="custom-select"
+                                            id="inputGroupSelectStatuses">
                                             <ng-template ngFor let-status [ngForOf]="statuses" let-i="index"
-                                            [ngForTrackBy]="trackByFn">
-                                            <option value="{{status.id}}">{{status.name}}</option>
-                                        </ng-template>
+                                                [ngForTrackBy]="trackByFn">
+                                                <option value="{{status.id}}">{{status.name}}</option>
+                                            </ng-template>
                                         </select>
                                     </div>
                                 </div>
-                                <div *ngIf="!isEditMode || orderItem.orderId != editableOrderId " class="nonEditClass">
+                                <div *ngIf="!isEditMode || orderItem.orderId != editableOrderId" class="nonEditClass">
                                     <h5 class="card-title">Name: {{orderItem.productName}}</h5>
                                     <p class="card-text">Price: {{orderItem.productPrice}}</p>
                                     <p class="card-text">Status: {{orderItem.statusName}}</p>
                                 </div>
+                                <div></div>
                             </div>
                             <div class="card-body">
+                                <div *ngIf="orderItem.orderId == null && isCreateMode" class="isCreateClass">
+                                    <button type="button" class="btn btn-primary" (click)="onClickSaveNewOrder()">Add
+                                        Order</button>
+                                    <button type="button" class="btn btn-danger"
+                                        (click)="onClickCancelNewOrder()">Cancel</button>
+                                </div>
                                 <div class="row justify-content-start">
-                                    <div *ngIf="!isEditMode" class="col-auto">
+                                    <div *ngIf="!isEditMode && orderItem.productId != null" class="col-auto">
                                         <button type="button" class="btn btn-primary"
                                             (click)="onClickEdit(orderItem)">Edit</button>
                                         <button type="button" class="btn btn-danger"
@@ -70,5 +80,9 @@
                 </div>
             </li>
         </ul>
+    </div>
+    <div class="col-md-2">
+        <button *ngIf="!isCreateMode" type="button" class="btn btn-primary" (click)="onClickAddOrder()">Add
+            Order</button>
     </div>
 </div>

@@ -32,8 +32,11 @@ export class OrdersListComponent implements OnInit {
   editableStatusId: number;
   editableOrderCount: number;
   newEditableProductId: string;
+  newEditableStatusId: string;
 
   isEditMode = false;
+  isCreateMode = false;
+  approveCreate = false;
 
   ngOnInit() {
     this.orderService.getOrders()
@@ -74,49 +77,111 @@ export class OrdersListComponent implements OnInit {
                 statusName: status.name
               };
 
-              this.orderItems.push(orderItem);
+              this.orderItems.unshift(orderItem);
             });
         }
       });
   }
 
-  onClickEdit(item: IOrderItem) {
-    this.editableOrderId = item.orderId;
-    this.editableProductId = item.productId;
-    this.editableStatusId = item.statusId;
-    this.editableOrderCount = item.count;
+  onClickAddOrder() {
+    let newOrder: IOrderItem = {
+      orderId: null,
+      productId: null,
+      productName: null,
+      productPrice: null,
+      productPhoto: null,
+      statusId: null,
+      statusName: null,
+      count: null
+    }
+    this.orderItems.unshift(newOrder);
 
-    this.isEditMode = true;
+    this.isCreateMode = true;
   }
 
-  onClickCancel() {
-    this.isEditMode = false;
-  }
-  onClickSave() {
-    let order: IOrder = {
-      id: this.editableOrderId,
+  onClickSaveNewOrder() {
+    
+    let newOrder: IOrder = {
+      id: null,
       productId: +this.newEditableProductId,
-      statusId: this.editableStatusId,
-      count: this.editableStatusId
+      statusId: +this.newEditableStatusId,
+      count: null
     };
 
-    this.orderService.updateOrder(order)
-      .subscribe(data => {
-        this.updateProduct(data);
-      });
+    this.orderService.createOrder(newOrder)
+      .subscribe(newItem => {
+        let product: IProduct;
+        let status: IStatus;
 
-    this.isEditMode = false;
-  }
+
+        this.productsService.getProductById(newItem.productId)
+          .subscribe(data => {
+            product = data;
+          });
+
+        this.statusesService.getStatusById(newItem.statusId)
+          .subscribe(data => {
+            status = data;
+            let orderItem: IOrderItem = {
+              orderId: newItem.id,
+              productId: product.id,
+              productName: product.name,
+              productPrice: product.price,
+              productPhoto: product.photoUrl,
+              count: newItem.count,
+              statusId: status.id,
+              statusName: status.name
+              
+            };
+
+            this.orderItems.unshift(orderItem);
+          });
+        });
+      }
+
+  onClickCancelNewOrder() {
+        this.isCreateMode = false;
+        this.orderItems.splice(0, 1);
+      }
+
+  onClickEdit(item: IOrderItem) {
+        this.editableOrderId = item.orderId;
+        this.editableProductId = item.productId;
+        this.editableStatusId = item.statusId;
+        this.editableOrderCount = item.count;
+        this.newEditableProductId = item.productId.toString();
+        this.newEditableStatusId = item.statusId.toString();
+        this.isEditMode = true;
+      }
+
+  onClickCancel() {
+        this.isEditMode = false;
+      }
+  onClickSave() {
+        let order: IOrder = {
+          id: this.editableOrderId,
+          productId: +this.newEditableProductId,
+          statusId: +this.newEditableStatusId,
+          count: this.editableStatusId
+        };
+
+        this.orderService.updateOrder(order)
+          .subscribe(data => {
+            this.updateProduct(data);
+          });
+
+        this.isEditMode = false;
+      }
 
   openModal(content: any, id: number) {
-    this.modalService.open(content, { size: 'sm' })
-      .result.then((result) => {
-        this.onClickModal(result, id);
-      });
-  }
+        this.modalService.open(content, { size: 'sm' })
+          .result.then((result) => {
+            this.onClickModal(result, id);
+          });
+      }
 
   private onClickModal(result: string, id: number) {
-    if (result == 'Delete click') {
+        if(result == 'Delete click') {
       this.orderService.deleteOrder(id)
         .subscribe(() => {
           let itemIndex = this.orderItems.findIndex(x => x.orderId == id)

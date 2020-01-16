@@ -25,4 +25,8 @@ export class OrdersService
     deleteOrder(id: number) : Observable<IOrder> {
         return this.httpClient.delete<IOrder>(this.url + id);
     }
+
+    createOrder(order: IOrder) : Observable<IOrder> {
+        return this.httpClient.post<IOrder>(this.url, order);
+    }
 }
