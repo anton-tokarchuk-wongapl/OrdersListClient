@@ -30,17 +30,17 @@ export class ProductsListComponent implements OnInit {
 
   editablePrice: number;
 
-  editMode = false;
+  isEditMode = false;
 
   onClickEdit(product: IProduct) {
     this.editableId = product.id
     this.editableName = product.name
     this.editablePrice = product.price;
-    this.editMode = true;
+    this.isEditMode = true;
   }
 
   onClickCancel() {
-    this.editMode = false;
+    this.isEditMode = false;
   }
 
   onClickSave(product: IProduct) {
@@ -58,7 +58,7 @@ export class ProductsListComponent implements OnInit {
         this.updateProduct(data);
       });
 
-    this.editMode = false;
+    this.isEditMode = false;
   }
 
   openModal(content: any, id: number, index: number) {

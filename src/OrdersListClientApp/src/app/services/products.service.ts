@@ -5,22 +5,24 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class ProductsService
-{
+{   
     constructor(private httpClient: HttpClient) { }
 
+    private url = 'api/products/';
+
     getProducts() : Observable<IProduct[]> {
-        return this.httpClient.get<IProduct[]>('api/products');
+        return this.httpClient.get<IProduct[]>(this.url);
     }
 
     getProductById(id: number) : Observable<IProduct> {
-        return this.httpClient.get<IProduct>('api/products/' + id);
+        return this.httpClient.get<IProduct>(this.url + id);
     }
 
     updateProduct(product: IProduct) : Observable<IProduct> {
-        return this.httpClient.put<IProduct>('api/products', product);
+        return this.httpClient.put<IProduct>(this.url, product);
     }
 
     deleteProduct(id: number) : Observable<IProduct> {
-        return this.httpClient.delete<IProduct>('api/products/' + id);
+        return this.httpClient.delete<IProduct>(this.url + id);
     }
 }

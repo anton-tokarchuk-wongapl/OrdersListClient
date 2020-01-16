@@ -7,11 +7,16 @@ import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { ProductsListComponent } from './products-list/products-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { OrdersListComponent } from './orders-list/orders-list.component';
+import { OrdersService } from './services/orders.service';
+import { StatusesService } from './services/statuses.service';
+import { ProductsService } from './services/products.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     TopBarComponent,
+    OrdersListComponent,
     ProductsListComponent
   ],
   imports: [
@@ -21,7 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [OrdersService, StatusesService, ProductsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
